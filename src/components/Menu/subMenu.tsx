@@ -17,12 +17,11 @@ export interface subMenuProps {
 const SubMenu: FC<subMenuProps> = (props) => {
 	const { index, className, title, children } = props
 	const context = useContext(MenuContext)
-	const [menuOpen, setMenuOpen] = useState(false)
-
+	const opnenMenus = context.defaultOpenSubMenus as Array<string>
+	const isOpened=index && context.mode==='vertical'? opnenMenus.includes(index):false
+	const [menuOpen, setMenuOpen] = useState(isOpened)
 	const classes = classnames('menu-item submenu-item', className, {
 		'is-active': context.index === index,
-		// 'is-opened': menuOpen,
-		// 'submenu-item':menuOpen
 	})
 	const handleClick = (e: React.MouseEvent) => {
 		e.preventDefault()
@@ -38,13 +37,14 @@ const SubMenu: FC<subMenuProps> = (props) => {
 	const clickEvents =
 		context.mode === 'vertical'
 			? {
-					onClick: handleClick,
-			  }
+				onClick: handleClick,
+			}
 			: {}
-   const hoverEvents=  context.mode !== 'vertical'?{
-    onMouseEnter:(e:React.MouseEvent)=>{handleMove(e,true)},
-    onMouseLeave:(e:React.MouseEvent)=>{handleMove(e,false)},
-   } :{}
+	const hoverEvents = context.mode !== 'vertical' ? {
+		onMouseEnter: (e: React.MouseEvent) => { handleMove(e, true) },
+		onMouseLeave: (e: React.MouseEvent) => { handleMove(e, false) },
+	} : {}
+
 	const renderChildren = () => {
 		const subMenuClasses = classnames('viking-submenu', {
 			'menu-opened': menuOpen,
@@ -74,3 +74,5 @@ const SubMenu: FC<subMenuProps> = (props) => {
 }
 SubMenu.displayName = 'SubMenu'
 export default SubMenu
+
+ // 默认展开

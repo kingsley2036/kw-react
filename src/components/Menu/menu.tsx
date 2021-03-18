@@ -16,19 +16,21 @@ export interface menuProps {
 	defaultIndex?: string
 	className?: string
 	style?: CSSProperties
-	onSelect?: onSelectCallback
+	onSelect?: onSelectCallback,
+	defaultOpenSubMenus?:string[]
 }
 interface IMenuContext {
 	index: string
 	onSelect?: onSelectCallback
-	mode?: MenuMode
+	mode?: MenuMode,
+	defaultOpenSubMenus?:string[]
 }
 
 export const MenuContext = createContext<IMenuContext>({
 	index: '0',
 }) // 试一试默认给个空对象可不可以? 不行,会报错
 const Menu: FC<menuProps> = (props) => {
-	const { mode, defaultIndex, className, style, children, onSelect } = props
+	const { mode, defaultIndex, className, style, children, onSelect,defaultOpenSubMenus } = props
 	const classes = classnames('viking-menu', className, {
 		'menu-vertical': mode === 'vertical',
 		'menu-horizontal': mode !== 'vertical',
@@ -43,7 +45,8 @@ const Menu: FC<menuProps> = (props) => {
 	const passedContext: IMenuContext = {
 		index: currentActive ? currentActive : '0',
 		onSelect: handleClick,
-		mode: mode,
+		mode,
+		defaultOpenSubMenus
 	}
 	const renderChildren = () => {
 		return React.Children.map(children, (child, index) => {
@@ -71,6 +74,8 @@ const Menu: FC<menuProps> = (props) => {
 Menu.defaultProps = {
 	defaultIndex: '0',
 	mode: 'horizontal',
+	defaultOpenSubMenus:[]
+
 }
 
 export default Menu
