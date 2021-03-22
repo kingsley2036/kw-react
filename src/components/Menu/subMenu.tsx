@@ -7,6 +7,7 @@ import React, {
 import { MenuContext } from './menu'
 import classnames from 'classnames'
 import { MenuItemProps } from './menuItem'
+import { CSSTransition } from 'react-transition-group'
 
 export interface subMenuProps {
 	index?: string
@@ -18,7 +19,7 @@ const SubMenu: FC<subMenuProps> = (props) => {
 	const { index, className, title, children } = props
 	const context = useContext(MenuContext)
 	const opnenMenus = context.defaultOpenSubMenus as Array<string>
-	const isOpened=index && context.mode==='vertical'? opnenMenus.includes(index):false
+	const isOpened = index && context.mode === 'vertical' ? opnenMenus.includes(index) : false
 	const [menuOpen, setMenuOpen] = useState(isOpened)
 	const classes = classnames('menu-item submenu-item', className, {
 		'is-active': context.index === index,
@@ -60,7 +61,11 @@ const SubMenu: FC<subMenuProps> = (props) => {
 				console.error('SubMenu has a child which is not MenuItem ')
 			}
 		})
-		return <ul className={subMenuClasses}>{childrenComponent}</ul>
+		return (
+			<CSSTransition in={menuOpen} timeout={300} classNames='zoom-in-top' appear>
+				<ul className={subMenuClasses}>{childrenComponent}</ul>
+			</CSSTransition>
+		)
 	}
 
 	return (
