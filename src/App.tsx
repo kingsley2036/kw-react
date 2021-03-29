@@ -6,9 +6,14 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas,faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 import Icon from './components/Icon/icon'
+import Button from './components/Button/button'
+import React, { useState } from 'react'
+import  Transition from './components/Transition/transition'
+
 library.add(fas)
 
 function App() {
+	const [show,setShow]=useState(true)
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -25,9 +30,20 @@ function App() {
 						<MenuItem>子菜单2</MenuItem>
 					</SubMenu>
 				</Menu>
-				{/* <FontAwesomeIcon icon={faCoffee} /> */}
-				<Icon  icon='arrow-right' theme='danger'/>
-				<Icon  icon='arrow-right' />
+				<Button onClick={()=>{
+					setShow(!show)
+				}}>点击</Button>
+				<Transition in={show} timeout={300}  animation='zoom-in-left'>
+					<div>
+					<p>1112222222222222222222222222</p>
+					<p>111333333333333333</p>
+					<p>111111111111111</p>
+					{/* <Button>哈哈哈</Button> */}
+					</div>
+				</Transition>
+				<Transition in={show} timeout={300}  animation='zoom-in-right' wrapper>
+					<Button>哈哈哈</Button>
+				</Transition>
 			</header>
 		</div>
 	)

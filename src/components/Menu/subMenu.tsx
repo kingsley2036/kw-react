@@ -8,6 +8,8 @@ import { MenuContext } from './menu'
 import classnames from 'classnames'
 import { MenuItemProps } from './menuItem'
 import { CSSTransition } from 'react-transition-group'
+import  Transition from '../Transition/transition'
+import Icon from '../Icon/icon'
 
 export interface subMenuProps {
 	index?: string
@@ -48,7 +50,7 @@ const SubMenu: FC<subMenuProps> = (props) => {
 
 	const renderChildren = () => {
 		const subMenuClasses = classnames('viking-submenu', {
-			'menu-opened': menuOpen,
+			// 'menu-opened': menuOpen,
 		})
 		const childrenComponent = React.Children.map(children, (child, i) => {
 			const childElement = child as FunctionComponentElement<MenuItemProps>
@@ -62,9 +64,9 @@ const SubMenu: FC<subMenuProps> = (props) => {
 			}
 		})
 		return (
-			<CSSTransition in={menuOpen} timeout={300} classNames='zoom-in-top' appear unmountOnExit>
+			<Transition in={menuOpen} timeout={300}  animation='zoom-in-bottom'>
 				<ul className={subMenuClasses}>{childrenComponent}</ul>
-			</CSSTransition>
+			</Transition>
 		)
 	}
 
@@ -72,6 +74,7 @@ const SubMenu: FC<subMenuProps> = (props) => {
 		<li className={classes} key={index} {...hoverEvents}>
 			<div className="submenu-title" {...clickEvents}>
 				{title}
+				<Icon icon="angle-down" className="arrow-icon"/>
 			</div>
 			{renderChildren()}
 		</li>
